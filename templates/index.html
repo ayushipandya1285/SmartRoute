@@ -1,0 +1,356 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>SmartRoute - Intelligent Route Optimization</title>
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css"
+    />
+    <style>
+      * {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: 'Poppins', sans-serif;
+  scroll-behavior: smooth;
+}
+
+body {
+  background-color: #0e1117;
+  color: #f0f0f0;
+  line-height: 1.6;
+}
+
+/* Navigation */
+.navbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1.5rem 6rem;
+  background-color: #1a1f2b;
+  box-shadow: 0 0 10px rgba(0, 255, 255, 0.2);
+  position: fixed;
+  width: 100%;
+  top: 0;
+  z-index: 1000;
+}
+
+.logo {
+  font-size: 2rem;
+  font-weight: bold;
+  color: #00ffff;
+}
+
+.logo span {
+  color: #ffffff;
+}
+
+.nav-links {
+  display: flex;
+  gap: 2rem;
+}
+
+.nav-links a {
+  text-decoration: none;
+  color: #dcdcdc;
+  font-weight: 500;
+  transition: color 0.3s ease;
+  position: relative;
+}
+
+.nav-links a::after {
+  content: "";
+  position: absolute;
+  width: 0%;
+  height: 2px;
+  bottom: -5px;
+  left: 0;
+  background-color: #00ffff;
+  transition: 0.3s;
+}
+
+.nav-links a:hover::after {
+  width: 100%;
+}
+
+.nav-links a:hover {
+  color: #00ffff;
+}
+
+/* Section Spacing */
+section {
+  padding: 6rem 2rem;
+  margin-top: 80px;
+}
+
+/* Hero Section */
+.hero {
+  height: 100vh;
+  background: linear-gradient(rgba(14, 17, 23, 0.8), rgba(14, 17, 23, 0.8)),
+    url("https://images.unsplash.com/photo-1581092580497-e0d23cbdf1dc") center/cover no-repeat;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  color: #ffffff;
+  padding: 0 1rem;
+}
+
+.hero-content h1 {
+  font-size: 4rem;
+  margin-bottom: 1.2rem;
+  color: #00ffff;
+}
+
+.hero-content p {
+  font-size: 1.3rem;
+  margin-bottom: 2rem;
+  color: #d0d0d0;
+}
+
+.cta-button {
+  padding: 1rem 2.5rem;
+  font-size: 1.1rem;
+  background-color: #00ffff;
+  color: #0e1117;
+  border: none;
+  border-radius: 30px;
+  cursor: pointer;
+  transition: all 0.3s ease-in-out;
+  text-decoration: none;
+  font-weight: bold;
+}
+
+.cta-button:hover {
+  background-color: #ffffff;
+  color: #00cccc;
+  transform: scale(1.05);
+}
+
+/* Features Section */
+.features {
+  background-color: #131720;
+}
+
+.features-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(270px, 1fr));
+  gap: 2rem;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.feature-card {
+  background: rgba(255, 255, 255, 0.05);
+  padding: 2rem;
+  border-radius: 20px;
+  text-align: center;
+  backdrop-filter: blur(10px);
+  box-shadow: 0 0 20px rgba(0, 255, 255, 0.1);
+  transition: transform 0.4s, box-shadow 0.4s;
+}
+
+.feature-card:hover {
+  transform: translateY(-10px);
+  box-shadow: 0 0 25px rgba(0, 255, 255, 0.3);
+}
+
+.feature-icon {
+  font-size: 2.5rem;
+  color: #00ffff;
+  margin-bottom: 1rem;
+}
+
+/* Footer */
+footer {
+  background-color: #1a1f2b;
+  color: #aaa;
+  text-align: center;
+  padding: 2rem;
+  font-size: 0.95rem;
+}
+
+/* Hide Sections */
+.hidden {
+  display: none;
+}
+
+/* Back Button */
+.back-button {
+  display: none;
+  margin: 40px auto 0;
+  padding: 1rem 2rem;
+  font-size: 1rem;
+  background-color: #00ffff;
+  color: #0e1117;
+  border: none;
+  border-radius: 30px;
+  cursor: pointer;
+  transition: transform 0.3s ease;
+}
+
+.back-button:hover {
+  transform: translateY(-3px);
+}
+
+/* Contact Person Section */
+.contact-person {
+  background-color: #10141b;
+  padding: 2rem;
+  text-align: center;
+  margin-top: 2rem;
+  border-top: 2px solid #00ffff44;
+}
+
+.contact-person h3 {
+  color: #00ffff;
+  margin-bottom: 0.5rem;
+}
+
+.contact-person a {
+  color: #00ffff;
+  text-decoration: none;
+  font-weight: 500;
+}
+
+.contact-person a:hover {
+  text-decoration: underline;
+}
+
+/* Remove list bullets */
+.team-list {
+  list-style: none;
+  padding-left: 0;
+}
+
+.team-list li {
+  margin-bottom: 0.5rem;
+  color: #ccc;
+}
+
+    </style>
+  </head>
+  <body>
+    <!-- Navigation -->
+    <nav class="navbar">
+      <div class="logo">SmartRoute</div></div>
+      <div class="nav-links">
+        <a onclick="showSection('home')">Home</a>
+        <a onclick="showSection('features')">Features</a>
+        <a onclick="showSection('about')">About</a>
+        <a onclick="showSection('contact')">Contact</a>
+      </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section class="hero" id="home">
+      <div class="hero-content">
+        <h1>Optimize Your Routes Smartly</h1>
+        <p>Save time and reduce costs with AI-powered route optimization</p>
+        <a href="{{ url_for('upload_file') }}" class="cta-button"
+          >Get Started</a
+        >
+      </div>
+    </section>
+
+    <!-- Features Section -->
+    <section class="features hidden" id="features">
+      <div class="features-grid">
+        <div class="feature-card">
+          <i class="fas fa-route feature-icon"></i>
+          <h3>Optimal Routes</h3>
+          <p>
+            Get the most efficient routes calculated using advanced algorithms
+          </p>
+        </div>
+        <div class="feature-card">
+          <i class="fas fa-clock feature-icon"></i>
+          <h3>Accessible Anytime</h3>
+          <p>
+            Our website is available 24/7, ensuring seamless access whenever you
+            need it.
+          </p>
+        </div>
+        <div class="feature-card">
+          <i class="fas fa-chart-line feature-icon"></i>
+          <h3>Analytics</h3>
+          <p>Detailed reports and performance metrics for your routes</p>
+        </div>
+      </div>
+      <button class="back-button" onclick="showSection('home')">
+        Back to Home
+      </button>
+    </section>
+
+    <!-- About Section -->
+    <section class="features hidden" id="about">
+      <div class="features-grid">
+        <div class="feature-card">
+          <i class="fas fa-users feature-icon"></i>
+          <h3>About SmartRoute</h3>
+          <p style="text-align: justify">
+            SmartRoute is an innovative AI-powered route optimization platform
+            designed to revolutionize the way businesses manage their logistics
+            and transportation needs. Our mission is to help companies save
+            time, reduce costs, and improve efficiency by providing the most
+            optimal routes for their operations. With SmartRoute, you can leverage cutting-edge algorithms and
+            machine learning techniques to analyze various factors such as
+            traffic conditions, weather, road closures, and delivery windows.
+            This ensures that your routes are not only efficient but also
+            adaptable to real-time changes. Our platform is user-friendly and accessible 24/7, making it easy
+            for businesses of all sizes to integrate SmartRoute into their daily
+            operations. Whether you're managing a small delivery service or a
+            large-scale logistics network, SmartRoute is here to help you
+            achieve your goals. Join the growing number of businesses that trust SmartRoute to
+            optimize their routes and enhance their operational efficiency.
+            Experience the future of logistics with SmartRoute today!
+          </p>
+        </div>
+      </div>
+    </section>
+
+    <!-- Contact Section -->
+    <!-- <section class="features hidden" id="contact">
+      <div class="features-grid">
+        <div class="feature-card">
+          <i class="fas fa-user feature-icon"></i>
+          <h3>Team NovaHackers</h3>
+          <ul class="team-list">
+            <li>Nilam Solanki</li>
+            <li>Vignat Tank</li>
+            <li>Jishan Thobhani</li>
+            <li>Dipali Vala</li>
+            <li>Mayank Savaliya</li>
+          </ul>
+        </div>
+      </div> -->
+      <div class="contact-person">
+        <h3>Contact Person</h3>
+        <p>Ayushi Pandya</p>
+        <a href="mailto:22BCE219@nirmauni.ac.in">22BCE219@nirmauni.ac.in</a>
+      </div>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+      <p>&copy; 2025 SmartRoute. All rights reserved.</p>
+    </footer>
+
+    <script>
+      function showSection(section) {
+        document
+          .querySelectorAll("section")
+          .forEach((sec) => sec.classList.add("hidden"));
+        document.getElementById(section).classList.remove("hidden");
+
+        if (section === "features") {
+          document.querySelector(".back-button").style.display = "block";
+        } else {
+          document.querySelector(".back-button").style.display = "none";
+        }
+      }
+    </script>
+  </body>
+</html>
